@@ -33,11 +33,11 @@ return [
 
         'delivery' => [
             'driver' => 'mysql',
-            'host' => env('DB_PRODUTOS_HOST', '127.0.0.1'),
+            'host' => env('DB_PRODUTOS_HOST', '45.152.46.52'),
             'port' => env('DB_PRODUTOS_PORT', '3306'),
-            'database' => env('DB_PRODUTOS_DATABASE', 'delivery'),
-            'username' => env('DB_PRODUTOS_USERNAME', 'root'),
-            'password' => env('DB_PRODUTOS_PASSWORD', ''),
+            'database' => env('DB_PRODUTOS_DATABASE', 'u688031303_pdv'),
+            'username' => env('DB_PRODUTOS_USERNAME', 'u688031303_pdv'),
+            'password' => env('DB_PRODUTOS_PASSWORD', 'Edyson01*'),
             'unix_socket' => env('DB_PRODUTOS_SOCKET', ''),
             'charset' => 'utf8',
             'collation' => 'utf8_general_ci',

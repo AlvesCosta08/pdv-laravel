@@ -27,6 +27,11 @@
     </style>
 </head>
 <body onload="window.print()">
+
+@php
+    use SimpleSoftwareIO\QrCode\Facades\QrCode;
+@endphp
+
     <div class="qrcode-container">
         @for ($i = 0; $i < 5; $i++)
             <div class="qrcode-box">
@@ -37,6 +42,7 @@
     </div>
 </body>
 </html>
+
 
 
 

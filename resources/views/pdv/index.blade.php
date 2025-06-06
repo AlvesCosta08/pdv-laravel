@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Remove zero à esquerda
         const tentativaQuery = query.replace(/^0+/, '');
 
-        fetch(`/api/v1/produtos/${encodeURIComponent(query)}`)
+        fetch(`/pdv/api/v1/produtos/${encodeURIComponent(query)}`)
             .then(res => {
                 if (!res.ok) throw new Error('Erro na resposta da API');
                 return res.json();
