@@ -3,125 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comprovante de Venda - {{ $numero_pedido }}</title>
+    <title>CUPOM ROMANEIO - {{ $numero_pedido }}</title>
     <style>
         body {
-            font-family: 'DejaVu Sans', Arial, sans-serif;
-            font-size: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
             margin: 0;
-            padding: 10px;
+            padding: 2mm;
             color: #000;
+            width: 80mm;
         }
         .header {
             text-align: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px dashed #ccc;
+            margin-bottom: 2mm;
+            padding-bottom: 1mm;
+            border-bottom: 1px dashed #000;
         }
         .header h1 {
-            font-size: 16px;
+            font-size: 12px;
             margin: 0;
             font-weight: bold;
+            text-transform: uppercase;
         }
         .header p {
-            margin: 3px 0;
-            font-size: 11px;
+            margin: 1mm 0;
+            font-size: 9px;
+            line-height: 1.1;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 10px;
-            font-size: 11px;
-        }
-        th {
-            background-color: #f5f5f5;
-            font-weight: bold;
+            margin-bottom: 2mm;
+            font-size: 9px;
         }
         th, td {
-            padding: 5px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+            padding: 1mm 0.5mm;
+            border-bottom: 1px dotted #000;
         }
         .total {
             font-weight: bold;
-            font-size: 13px;
             text-align: right;
-            margin-top: 10px;
+            margin-top: 2mm;
             border-top: 1px solid #000;
-            padding-top: 5px;
+            padding-top: 1mm;
+            font-size: 11px;
         }
         .footer {
-            margin-top: 20px;
+            margin-top: 3mm;
             text-align: center;
-            font-size: 10px;
-            border-top: 1px dashed #ccc;
-            padding-top: 10px;
+            font-size: 8px;
+            border-top: 1px dashed #000;
+            padding-top: 1mm;
+            line-height: 1.1;
         }
         .text-center { text-align: center; }
         .text-right { text-align: right; }
+        .divider {
+            border-top: 1px dashed #000;
+            margin: 1mm 0;
+        }
         @media print {
             .no-print { display: none !important; }
-            body { padding: 0; }
+            body { padding: 0; margin: 0; }
+            html, body { width: 80mm; }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>{{ $empresa['nome'] }}</h1>
+        <h1>{{ strtoupper($empresa['nome']) }}</h1>
         <p>{{ $empresa['endereco'] }}</p>
-        <p>CNPJ: {{ $empresa['cnpj'] }} | Tel: {{ $empresa['telefone'] }}</p>
-        <p>----------------------------------------</p>
-        <p><strong>COMPROVANTE DE VENDA</strong></p>
-        <p>Nº: {{ $numero_pedido }} | Data: {{ $data }}</p>
+        <p>CNPJ: {{ $empresa['cnpj'] }} | IE: {{ $empresa['ie'] ?? 'ISENTO' }}</p>
+        <p>TEL: {{ $empresa['telefone'] }} | {{ $empresa['horario_funcionamento'] ?? '' }}</p>
+        <div class="divider"></div>
+        <p><strong>CUPOM ROMANEIO</strong></p>
+        <p>Nº: {{ $numero_pedido }} | {{ $data }} {{ date('H:i') }}</p>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th>Item</th>
-                <th class="text-right">Qtd</th>
-                <th class="text-right">Unit.</th>
-                <th class="text-right">Total</th>
+                <th>COD</th>
+                <th>DESC</th>
+                <th class="text-right">QTD</th>
+                <th class="text-right">UN</th>
+                <th class="text-right">TOTAL</th>
             </tr>
         </thead>
         <tbody>
             @foreach($itens as $item)
             <tr>
-                <td>{{ $item['nome'] }}</td>
+                <td>{{ $item['produto_id'] }}</td>
+                <td>{{ substr($item['nome'], 0, 15) }}</td>
                 <td class="text-right">{{ $item['quantidade'] }}</td>
-                <td class="text-right">R$ {{ number_format($item['valor_venda'], 2, ',', '.') }}</td>
-                <td class="text-right">R$ {{ number_format($item['valor_venda'] * $item['quantidade'], 2, ',', '.') }}</td>
+                <td class="text-right">{{ number_format($item['valor_venda'], 2, ',', '') }}</td>
+                <td class="text-right">{{ number_format($item['valor_venda'] * $item['quantidade'], 2, ',', '') }}</td>
             </tr>
             @endforeach
         </tbody>
     </table>
 
     <div class="total">
-        TOTAL: R$ {{ number_format($total, 2, ',', '.') }}
+        TOTAL R$ {{ number_format($total, 2, ',', '.') }}
     </div>
+
+    <div class="divider"></div>
+    <p style="text-align: center; font-size: 9px; margin: 1mm 0;">
+        FORMA PAGAMENTO: {{ $forma_pagamento ?? 'DINHEIRO' }}
+    </p>
+    <div class="divider"></div>
 
     <div class="footer">
-        <p>Obrigado pela preferência!</p>
+        <p>VOLTE SEMPRE!</p>
         <p>{{ $empresa['nome'] }}</p>
-        <p>{{ config('app.url') }}</p>
+        <p>{{ date('d/m/Y H:i:s') }} | OPERADOR: {{ $operador ?? 'SISTEMA' }}</p>
+        <p>----------------------------------------</p>
+        <p>CONSULTE PELA CHAVE DE ACESSO EM</p>
+        <p>{{ $empresa['site_nf'] ?? '' }}</p>
     </div>
 
-    <div class="no-print text-center" style="margin-top: 20px;">
-        <button onclick="window.print()" style="padding: 5px 10px; margin: 0 5px; cursor: pointer;">
-            🖨️ Imprimir
+    <div class="no-print text-center" style="margin-top: 3mm;">
+        <button onclick="window.print()" style="padding: 2mm; margin: 0 1mm; cursor: pointer; font-size: 9px;">
+            IMPRIMIR
         </button>
-        <a href="{{ route('pdv.comprovante', ['tipo' => 'pdf']) }}" style="padding: 5px 10px; margin: 0 5px; text-decoration: none; color: #000; border: 1px solid #000;">
-            📄 Baixar PDF
-        </a>
-        <button onclick="window.close()" style="padding: 5px 10px; margin: 0 5px; cursor: pointer;">
-            ❌ Fechar
+        <button onclick="window.close()" style="padding: 2mm; margin: 0 1mm; cursor: pointer; font-size: 9px;">
+            FECHAR
         </button>
     </div>
 
     <script>
-        // Focar em impressão automaticamente se for mobile
-        if(window.innerWidth < 768) {
-            window.print();
+        // Auto-print em dispositivos móveis
+        if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            setTimeout(function(){ window.print(); }, 200);
         }
     </script>
 </body>
