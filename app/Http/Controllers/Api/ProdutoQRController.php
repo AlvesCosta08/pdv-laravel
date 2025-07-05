@@ -33,6 +33,11 @@ class ProdutoQRController extends Controller
         $produtos = Produto::paginate(10); // ou all() dependendo do seu caso
         return view('produtos.qrcodes-list', compact('produtos'));
     }
+    public function printTodosQRCodes()
+    {
+        $produtos = Produto::all();
+        return view('produtos.qrcodes-todos', compact('produtos'));
+    }
 }
 
 

@@ -5,6 +5,12 @@
 @section('content')
 <div class="container py-5">
     <h2 class="mb-4 text-primary">Lista de Produtos</h2>
+        <h2 class="mb-4 text-primary d-flex justify-content-between align-items-center">
+
+        <a href="{{ route('produtos.qrcode.print.todos') }}" target="_blank" class="btn btn-success">
+            Imprimir Todos os QR Codes
+        </a>
+    </h2>
 
     <div class="table-responsive shadow-sm rounded">
         <table class="table table-bordered table-hover align-middle">

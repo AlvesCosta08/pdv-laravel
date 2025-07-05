@@ -35,6 +35,8 @@ Route::get('/produtos', [ProdutoQRController::class, 'index'])->name('produtos.i
 // Imprimir QR Codes de um único produto
 
 Route::get('/produtos/{id}/qrcode-print', [ProdutoQRController::class, 'gerarQRCodeProduto'])->name('produtos.qrcode.print');
+Route::get('/produtos/qrcodes/print-todos', [ProdutoQRController::class, 'printTodosQRCodes'])->name('produtos.qrcode.print.todos');
+
 
 // Imprimir QR Codes de todos os produtos
 Route::get('/produtos/qrcodes', [ProdutoQRController::class, 'qrcodes'])->name('produtos.qrcodes');
